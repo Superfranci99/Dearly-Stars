@@ -86,8 +86,8 @@ def toInt(byteArray):
     return result
 
 # open files
-fileT = open("F_SCN.IDX", "rb") # EZT -> fileT -> pointers
-fileP = open("F_SCN.BIN", "rb") # EZP -> fileP -> data
+fileT = open(sys.argv[1], "rb") # EZT -> fileT -> pointers
+fileP = open(sys.argv[2], "rb") # EZP -> fileP -> data
 # read EZT header
 magicIdEZT = fileT.read(4)
 constEZT = fileT.read(4)
@@ -122,7 +122,7 @@ for i in range(nFiles):
         fileName += c
     print(fileName)
     # write the file
-    out = open("Data\%s" % (fileName), "wb")
+    out = open(sys.argv[3] + fileName, "wb")
     if(length > 0):
         data = decompress_bytes(data)
     out.write(data)
