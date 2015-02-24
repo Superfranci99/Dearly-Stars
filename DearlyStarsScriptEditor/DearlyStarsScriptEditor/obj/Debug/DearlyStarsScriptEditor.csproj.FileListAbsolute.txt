@@ -1,1 +1,6 @@
 D:\Francesco\Documenti\GitHub\Dearly-Stars\DearlyStarsScriptEditor\DearlyStarsScriptEditor\bin\Debug\DearlyStarsScriptEditor.exe.config
+D:\Francesco\Documenti\GitHub\Dearly-Stars\DearlyStarsScriptEditor\DearlyStarsScriptEditor\bin\Debug\DearlyStarsScriptEditor.exe
+D:\Francesco\Documenti\GitHub\Dearly-Stars\DearlyStarsScriptEditor\DearlyStarsScriptEditor\bin\Debug\DearlyStarsScriptEditor.pdb
+D:\Francesco\Documenti\GitHub\Dearly-Stars\DearlyStarsScriptEditor\DearlyStarsScriptEditor\obj\Debug\DearlyStarsScriptEditor.csprojResolveAssemblyReference.cache
+D:\Francesco\Documenti\GitHub\Dearly-Stars\DearlyStarsScriptEditor\DearlyStarsScriptEditor\obj\Debug\DearlyStarsScriptEditor.exe
+D:\Francesco\Documenti\GitHub\Dearly-Stars\DearlyStarsScriptEditor\DearlyStarsScriptEditor\obj\Debug\DearlyStarsScriptEditor.pdb
