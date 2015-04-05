@@ -40,6 +40,25 @@ namespace DearlyStarsScriptEditor
                 blockOffsets[br.ReadUInt16()] = (uint)br.BaseStream.Position - 2;
             }
 
+            // read block 2
+            if (blockOffsets[2] == 0)
+                throw new NotImplementedException();
+            br.BaseStream.Seek(blockOffsets[2] + 0x8, SeekOrigin.Begin);
+            // from what I have seen it's always 1
+            uint unk_1 = br.ReadUInt16();
+            if (unk_1 == 0)
+                throw new NotImplementedException();
+            br.BaseStream.Seek(blockOffsets[2] + 0x4, SeekOrigin.Begin);
+            uint endBlocks = br.ReadUInt32() + blockOffsets[2];
+            br.BaseStream.Seek(blockOffsets[2] + 0xC, SeekOrigin.Begin);
+            uint unk_2 = br.ReadUInt32();
+            br.BaseStream.Seek(endBlocks, SeekOrigin.Begin);
+            uint unk_3 = br.ReadUInt32() + unk_2 + blockOffsets[2];
+
+            br.BaseStream.Seek(unk_3 + 0xC, SeekOrigin.Begin);
+            //must be 1
+            uint unk_4 = br.ReadUInt32();
+
             br.Close();
             fs.Close();
         }
