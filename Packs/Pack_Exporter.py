@@ -122,7 +122,7 @@ for i in range(nFiles):
         fileName += c
     print(fileName)
     # write the file
-    out = open(sys.argv[3] + fileName, "wb")
+    out = open(sys.argv[3] + str(i) + "_" + fileName, "wb")
     if(length > 0):
         data = decompress_bytes(data)
     out.write(data)
