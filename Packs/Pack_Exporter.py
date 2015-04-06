@@ -109,7 +109,7 @@ for i in range(nFiles):
     length = toInt(fileT.read(2))
     flagCompr = toInt(fileT.read(2))
     nameRelOff = toInt(fileT.read(4))
-    print(offset, length, flagCompr, nameRelOff)
+    print(offset, length, flagCompr, nameRelOff)  
     # get data from EZP
     fileP.seek(offset, 0)
     data = fileP.read(length)
@@ -120,12 +120,18 @@ for i in range(nFiles):
         if(c == chr(0)):
             break;
         fileName += c
-    print(fileName)
+    print(fileName)   
     # write the file
-    out = open(sys.argv[3] + str(i) + "_" + fileName, "wb")
+    outputDir = sys.argv[3] + str(i) + "_" + fileName
+    out = open(outputDir, "wb")
     if(length > 0):
-        data = decompress_bytes(data)
+        if(flagCompr == 4096):
+            data = decompress_bytes(data)
+        else:
+            # compression not supported
+            data = data
     out.write(data)
     out.close()
+    
 fileT.close()
 fileP.close()
