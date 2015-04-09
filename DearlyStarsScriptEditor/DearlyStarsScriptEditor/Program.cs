@@ -10,7 +10,7 @@ namespace DearlyStarsScriptEditor
     {
         static void Main(string[] args)
         {
-            Script sc = new Script(@"D:\Francesco\Documenti\NDS\Hacking\Laboratory\dearly stars\python scripts\SCN\AIH_GOP_MAIN01_MES.BBQ");
+            Script sc = new Script(@"D:\Francesco\Documenti\GitHub\Dearly-Stars\Packs\FileData\system\154_AIH_GOP_MAIN01_MES.BBQ");
         }
     }
 }

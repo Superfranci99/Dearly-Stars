@@ -20,13 +20,13 @@ namespace DearlyStarsScriptEditor
 
 
         // file structure properties
-        public List<Section> Sections { get; set; }
-
-
+        SectionList  Sections { get; set; }
+        List<uint>   Pointers { get; set; }
+        List<string> Texts    { get; set; }
 
         private void Read(FileStream fs)
         {
-            BinaryReader br = new BinaryReader(fs);
+            BinReader br = new BinReader(fs);
 
             // read the header
             byte[] magicId  = br.ReadBytes(16);
@@ -39,7 +39,7 @@ namespace DearlyStarsScriptEditor
                 br.BaseStream.Position = headerSize;
 
             // get section data
-            this.Sections = new List<Section>();
+            this.Sections = new SectionList();
             for (int i = 0; i < nSections; i++)
             {
                 Section sect = new Section();
@@ -48,19 +48,26 @@ namespace DearlyStarsScriptEditor
                 
                 // get all data from each section
                 sect.Values = new uint[4];
-                for (int x = 0; x < 16; x++)
+                for (int x = 0; x < 4; x++)
                     sect.Values[x] = br.ReadUInt32();
 
                 this.Sections.Add(sect);  // store the current section
             }
 
             // read pointer block
-            br.BaseStream.Position = this.Sections[6].Offset + this.Sections[6].Values[0];  //section 7 at 0x4
-            for (int i = 0; i < this.Sections[6].Values[1]; i++)
+            this.Pointers = new List<uint>();
+            br.BaseStream.Position = this.Sections.GetSection(7).Offset + this.Sections.GetSection(7).Values[0]; //section 7 at 0x4
+            for (int i = 0; i < this.Sections.GetSection(7).Values[1]; i++)
+                this.Pointers.Add(br.ReadUInt32());
+
+            // read text block
+            this.Texts = new List<string>();
+            for (int i = 0; i < this.Sections.GetSection(7).Values[1]; i++)
             {
-                //leggi puntatore e testo
-            }
-            
+                br.BaseStream.Position =this.Sections.GetSection(7).Offset
+                    + this.Sections.GetSection(7).Values[2] + this.Pointers[i];  // seek to next text
+                this.Texts.Add(br.ReadJapString());
+            }         
 
             br.Close();
             fs.Close();
@@ -72,5 +79,46 @@ namespace DearlyStarsScriptEditor
             public uint   Offset { get; set; }
             public uint[] Values { get; set; }
         }
+
+
+
+        // new classes
+        class SectionList : List<Section>
+        {
+            public Section GetSection(int sectionName)
+            {
+                return this.Find(x => x.Name == sectionName);
+            }
+
+            public void Add(Section section)
+            {
+                if (!this.Exists(x => x.Name == section.Name))
+                    base.Add(section);
+                else
+                    throw new NotSupportedException("There can't be sections with the same name");
+            }            
+        }
+
+        class BinReader : BinaryReader
+        {
+            public BinReader(FileStream fs) : base(fs) { }
+
+            public string ReadJapString()
+            {
+                return Encoding.GetEncoding("shift_jis").GetString(ReadUntilZero());
+            }
+
+            public byte[] ReadUntilZero()
+            {
+                List<byte> bytes = new List<byte>();
+                do
+                    bytes.Add(this.ReadByte());
+                while (bytes[bytes.Count - 1] != 0);
+                return bytes.ToArray();
+            }
+        }
+
     }
+
+    
 }
