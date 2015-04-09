@@ -20,9 +20,10 @@ namespace DearlyStarsScriptEditor
 
 
         // file structure properties
-        SectionList  Sections { get; set; }
-        List<uint>   Pointers { get; set; }
-        List<string> Texts    { get; set; }
+        SectionList    Sections  { get; set; }
+        List<uint>     Pointers  { get; set; }
+        List<string>   Texts     { get; set; }
+        List<TextView> TextViews { get; set; }
 
         private void Read(FileStream fs)
         {
@@ -67,8 +68,28 @@ namespace DearlyStarsScriptEditor
                 br.BaseStream.Position =this.Sections.GetSection(7).Offset
                     + this.Sections.GetSection(7).Values[2] + this.Pointers[i];  // seek to next text
                 this.Texts.Add(br.ReadJapString());
-            }         
+            }
 
+            // get textview block
+            int numTextViews = (int)this.Sections.GetSection(5).Values[3] / 16;
+            this.TextViews = new List<TextView>(numTextViews);
+            for (int i = 0; i < numTextViews; i++)
+            {
+                br.BaseStream.Position = this.Sections.GetSection(5).Offset
+                + this.Sections.GetSection(5).Values[2] + i * 16;  // seek next textview
+
+                TextView textview = new TextView();
+                textview.Unknown1 = br.ReadByte();
+                textview.Unknown2 = br.ReadByte();
+                textview.Id = br.ReadUInt16();
+                textview.IndexText1 = br.ReadInt32();
+                textview.IndexText2 = br.ReadInt32();
+                textview.IndexText3 = br.ReadInt32();
+
+                this.TextViews.Add(textview);
+            }
+
+            // close filestream
             br.Close();
             fs.Close();
         }
@@ -78,6 +99,16 @@ namespace DearlyStarsScriptEditor
             public uint   Name   { get; set; }
             public uint   Offset { get; set; }
             public uint[] Values { get; set; }
+        }
+
+        struct TextView
+        {
+            public byte Unknown1 { get; set; }
+            public byte Unknown2 { get; set; }
+            public ushort Id { get; set; }
+            public int IndexText1 { get; set; }
+            public int IndexText2 { get; set; }
+            public int IndexText3 { get; set; }
         }
 
 
