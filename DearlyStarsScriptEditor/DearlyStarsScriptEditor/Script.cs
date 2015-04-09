@@ -7,7 +7,7 @@ using System.IO;
 
 namespace DearlyStarsScriptEditor
 {
-    class Script
+    public class Script
     {
         public string Path { get; set; }
 
@@ -22,8 +22,8 @@ namespace DearlyStarsScriptEditor
         // file structure properties
         SectionList    Sections  { get; set; }
         List<uint>     Pointers  { get; set; }
-        List<string>   Texts     { get; set; }
-        List<TextView> TextViews { get; set; }
+        public List<string>   Texts     { get; set; }
+        public List<TextView> TextViews { get; set; }
 
         private void Read(FileStream fs)
         {
@@ -101,7 +101,7 @@ namespace DearlyStarsScriptEditor
             public uint[] Values { get; set; }
         }
 
-        struct TextView
+        public struct TextView
         {
             public byte Unknown1 { get; set; }
             public byte Unknown2 { get; set; }
