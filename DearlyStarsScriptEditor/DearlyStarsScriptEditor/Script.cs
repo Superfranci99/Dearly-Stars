@@ -18,6 +18,12 @@ namespace DearlyStarsScriptEditor
             Read(fs);
         }
 
+
+        // file structure properties
+        public List<Section> Sections { get; set; }
+
+
+
         private void Read(FileStream fs)
         {
             BinaryReader br = new BinaryReader(fs);
@@ -32,35 +38,39 @@ namespace DearlyStarsScriptEditor
             if (br.BaseStream.Position != headerSize)
                 br.BaseStream.Position = headerSize;
 
-            // get 0-9 block offsets
-            uint[] blockOffsets = new uint[9];
+            // get section data
+            this.Sections = new List<Section>();
             for (int i = 0; i < nSections; i++)
             {
-                br.BaseStream.Seek(headerSize + (i * 0x14), SeekOrigin.Begin);
-                blockOffsets[br.ReadUInt16()] = (uint)br.BaseStream.Position - 2;
+                Section sect = new Section();
+                sect.Offset = (uint)br.BaseStream.Position;  // get section offset
+                sect.Name = br.ReadUInt32();  // get section identifier
+                
+                // get all data from each section
+                sect.Values = new uint[4];
+                for (int x = 0; x < 16; x++)
+                    sect.Values[x] = br.ReadUInt32();
+
+                this.Sections.Add(sect);  // store the current section
             }
 
-            // read block 2
-            if (blockOffsets[2] == 0)
-                throw new NotImplementedException();
-            br.BaseStream.Seek(blockOffsets[2] + 0x8, SeekOrigin.Begin);
-            // from what I have seen it's always 1
-            uint unk_1 = br.ReadUInt16();
-            if (unk_1 == 0)
-                throw new NotImplementedException();
-            br.BaseStream.Seek(blockOffsets[2] + 0x4, SeekOrigin.Begin);
-            uint endBlocks = br.ReadUInt32() + blockOffsets[2];
-            br.BaseStream.Seek(blockOffsets[2] + 0xC, SeekOrigin.Begin);
-            uint unk_2 = br.ReadUInt32();
-            br.BaseStream.Seek(endBlocks, SeekOrigin.Begin);
-            uint unk_3 = br.ReadUInt32() + unk_2 + blockOffsets[2];
-
-            br.BaseStream.Seek(unk_3 + 0xC, SeekOrigin.Begin);
-            //must be 1
-            uint unk_4 = br.ReadUInt32();
+            // read pointer block
+            br.BaseStream.Position = this.Sections[6].Offset + this.Sections[6].Values[0];  //section 7 at 0x4
+            for (int i = 0; i < this.Sections[6].Values[1]; i++)
+            {
+                //leggi puntatore e testo
+            }
+            
 
             br.Close();
             fs.Close();
+        }
+
+        struct Section
+        {
+            public uint   Name   { get; set; }
+            public uint   Offset { get; set; }
+            public uint[] Values { get; set; }
         }
     }
 }
