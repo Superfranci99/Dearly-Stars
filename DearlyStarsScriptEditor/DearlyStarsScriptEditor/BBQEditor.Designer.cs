@@ -37,6 +37,8 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
+            this.textBox4 = new System.Windows.Forms.TextBox();
+            this.label6 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -53,7 +55,7 @@
             this.textBox2.Location = new System.Drawing.Point(94, 94);
             this.textBox2.Multiline = true;
             this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(406, 80);
+            this.textBox2.Size = new System.Drawing.Size(289, 80);
             this.textBox2.TabIndex = 1;
             // 
             // textBox3
@@ -61,7 +63,7 @@
             this.textBox3.Location = new System.Drawing.Point(94, 195);
             this.textBox3.Multiline = true;
             this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(406, 80);
+            this.textBox3.Size = new System.Drawing.Size(289, 80);
             this.textBox3.TabIndex = 2;
             // 
             // numericUpDown1
@@ -117,11 +119,30 @@
             this.label5.TabIndex = 8;
             this.label5.Text = "Developed by Superfranci99";
             // 
+            // textBox4
+            // 
+            this.textBox4.Location = new System.Drawing.Point(418, 94);
+            this.textBox4.Multiline = true;
+            this.textBox4.Name = "textBox4";
+            this.textBox4.Size = new System.Drawing.Size(101, 100);
+            this.textBox4.TabIndex = 9;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(415, 78);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(36, 13);
+            this.label6.TabIndex = 10;
+            this.label6.Text = "Other:";
+            // 
             // BBQEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(535, 302);
+            this.Controls.Add(this.label6);
+            this.Controls.Add(this.textBox4);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
@@ -153,5 +174,7 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.TextBox textBox4;
+        private System.Windows.Forms.Label label6;
     }
 }

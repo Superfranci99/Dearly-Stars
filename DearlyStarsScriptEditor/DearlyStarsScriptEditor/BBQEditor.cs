@@ -32,6 +32,9 @@ namespace DearlyStarsScriptEditor
             textBox1.Text = this.ScriptData.Texts[this.ScriptData.TextViews[n].IndexText1];
             textBox2.Text = this.ScriptData.Texts[this.ScriptData.TextViews[n].IndexText2];
             textBox3.Text = this.ScriptData.Texts[this.ScriptData.TextViews[n].IndexText3];
+            textBox4.Text = "ID: " + this.ScriptData.TextViews[n].Id + "\r\n" +
+                "Unk1: " + this.ScriptData.TextViews[n].Unknown1 + "\r\n" +
+                "Unk2: " + this.ScriptData.TextViews[n].Unknown2;
         }
     }
 }
